@@ -49,15 +49,19 @@ public class JobController {
             model.addAttribute(jobForm);
             return "new-job";
         }
-        return "";
-        //Job theJob = newJob;
-        //get name
-        //employer       JobData.findById(jobForm.getEmployerId)
-        //location
-        //position
-        //coreCompetency
 
-        //Hint: CALL A METHOD (or a couple)
+        Job theJob = new Job(
+                jobForm.getName(),
+                jobData.getEmployers().findById(jobForm.getEmployerId()),
+                jobData.getLocations().findById(jobForm.getLocationId()),
+                jobData.getPositionTypes().findById(jobForm.getPositionTypeId()),
+                jobData.getCoreCompetencies().findById(jobForm.getCoreCompetencyId())
+        );
 
+        jobData.add(theJob);
+        model.addAttribute("job", theJob);
+
+
+        return "redirect:?id=" + theJob.getId();
     }
 }
